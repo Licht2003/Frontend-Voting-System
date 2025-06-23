@@ -1,2 +1,2 @@
 # Frontend-Voting-System
-Front-end for Voting system
+This is the front-end design for the ALTATECH Voting System, developed as part of the test project.
