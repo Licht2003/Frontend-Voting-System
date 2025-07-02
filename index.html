@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Pageant Candidates</title>
+  <title>Pageant Voting System</title>
   <style>
     body {
       font-family: sans-serif;
@@ -17,10 +17,53 @@
       margin-bottom: 2rem;
     }
 
+    .container {
+      max-width: 600px;
+      margin: auto;
+    }
+
+    .auth-box {
+      margin: 2rem auto;
+      max-width: 400px;
+    }
+
+    input {
+      width: 100%;
+      padding: 0.5rem;
+      margin: 0.5rem 0;
+      font-size: 1rem;
+    }
+
+    button {
+      padding: 0.5rem 1rem;
+      margin-top: 0.5rem;
+      background: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #0056b3;
+    }
+
+    .logout-btn {
+      background: crimson;
+      float: right;
+    }
+
+    .link {
+      color: blue;
+      cursor: pointer;
+      text-decoration: underline;
+    }
+
     .candidates-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
       gap: 1.5rem;
+      margin-top: 2rem;
     }
 
     .card {
@@ -34,130 +77,121 @@
       width: 100%;
       border-radius: 8px;
     }
-
-    .card h3 {
-      margin: 0.5rem 0;
-    }
-
-    .card button {
-      margin-top: 0.5rem;
-      padding: 0.5rem 1rem;
-      background: #007bff;
-      border: none;
-      color: white;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-
-    .card button:hover {
-      background: #0056b3;
-    }
   </style>
 </head>
 <body>
-  <h1>Pageant Candidates</h1>
-  <div class="candidates-grid">
-    <!-- CANDIDATE 1 to 13 -->
-    <!-- Replace image filenames with your own -->
-    <!-- START CANDIDATE LIST -->
-    <div class="card">
-      <img src="images/candidate1.jpg" alt="Candidate 1">
-      <h3>Candidate 1</h3>
-      <p>Votes: <span>0</span></p>
-      <button onclick="vote(this)">Vote</button>
-    </div>
 
-    <div class="card">
-      <img src="images/candidate2.jpg" alt="Candidate 2">
-      <h3>Candidate 2</h3>
-      <p>Votes: <span>0</span></p>
-      <button onclick="vote(this)">Vote</button>
-    </div>
+<div class="container">
+  <h1>Pageant Voting System</h1>
 
-    <div class="card">
-      <img src="images/candidate3.jpg" alt="Candidate 3">
-      <h3>Candidate 3</h3>
-      <p>Votes: <span>0</span></p>
-      <button onclick="vote(this)">Vote</button>
+  <!-- LOGIN / REGISTER -->
+  <div id="auth-section">
+    <div class="auth-box">
+      <h2 id="auth-title">Login</h2>
+      <input type="text" id="username" placeholder="Username" />
+      <input type="password" id="password" placeholder="Password" />
+      <button onclick="handleAuth()">Login</button>
+      <p>
+        <span id="toggle-auth" class="link" onclick="toggleAuth()">Don't have an account? Register</span>
+      </p>
     </div>
-
-    <div class="card">
-      <img src="images/candidate4.jpg" alt="Candidate 4">
-      <h3>Candidate 4</h3>
-      <p>Votes: <span>0</span></p>
-      <button onclick="vote(this)">Vote</button>
-    </div>
-
-    <div class="card">
-      <img src="images/candidate5.jpg" alt="Candidate 5">
-      <h3>Candidate 5</h3>
-      <p>Votes: <span>0</span></p>
-      <button onclick="vote(this)">Vote</button>
-    </div>
-
-    <div class="card">
-      <img src="images/candidate6.jpg" alt="Candidate 6">
-      <h3>Candidate 6</h3>
-      <p>Votes: <span>0</span></p>
-      <button onclick="vote(this)">Vote</button>
-    </div>
-
-    <div class="card">
-      <img src="images/candidate7.jpg" alt="Candidate 7">
-      <h3>Candidate 7</h3>
-      <p>Votes: <span>0</span></p>
-      <button onclick="vote(this)">Vote</button>
-    </div>
-
-    <div class="card">
-      <img src="images/candidate8.jpg" alt="Candidate 8">
-      <h3>Candidate 8</h3>
-      <p>Votes: <span>0</span></p>
-      <button onclick="vote(this)">Vote</button>
-    </div>
-
-    <div class="card">
-      <img src="images/candidate9.jpg" alt="Candidate 9">
-      <h3>Candidate 9</h3>
-      <p>Votes: <span>0</span></p>
-      <button onclick="vote(this)">Vote</button>
-    </div>
-
-    <div class="card">
-      <img src="images/candidate10.jpg" alt="Candidate 10">
-      <h3>Candidate 10</h3>
-      <p>Votes: <span>0</span></p>
-      <button onclick="vote(this)">Vote</button>
-    </div>
-
-    <div class="card">
-      <img src="images/candidate11.jpg" alt="Candidate 11">
-      <h3>Candidate 11</h3>
-      <p>Votes: <span>0</span></p>
-      <button onclick="vote(this)">Vote</button>
-    </div>
-
-    <div class="card">
-      <img src="images/candidate12.jpg" alt="Candidate 12">
-      <h3>Candidate 12</h3>
-      <p>Votes: <span>0</span></p>
-      <button onclick="vote(this)">Vote</button>
-    </div>
-
-    <div class="card">
-      <img src="images/candidate13.jpg" alt="Candidate 13">
-      <h3>Candidate 13</h3>
-      <p>Votes: <span>0</span></p>
-      <button onclick="vote(this)">Vote</button>
-    </div>
-    <!-- END CANDIDATE LIST -->
   </div>
 
-  <script>
-    function vote(button) {
-      const voteCount = button.previousElementSibling.querySelector('span');
-      voteCount.textContent = parseInt(voteCount.textContent) + 1;
+  <!-- VOTING PAGE -->
+  <div id="vote-section" style="display: none;">
+    <button class="logout-btn" onclick="logout()">Logout</button>
+    <h2 id="welcome-msg">Welcome!</h2>
+    <div class="candidates-grid" id="candidates"></div>
+  </div>
+</div>
+
+<script>
+  const candidates = Array.from({ length: 13 }, (_, i) => ({
+    name: `Candidate ${i + 1}`,
+    image: `images/candidate${i + 1}.jpg`,
+    votes: 0,
+  }));
+
+  let usersDB = [];
+  let currentUser = null;
+  let isLogin = true;
+
+  function toggleAuth() {
+    isLogin = !isLogin;
+    document.getElementById('auth-title').innerText = isLogin ? 'Login' : 'Register';
+    document.querySelector('#auth-section button').innerText = isLogin ? 'Login' : 'Register';
+    document.getElementById('toggle-auth').innerText = isLogin
+      ? "Don't have an account? Register"
+      : "Already have an account? Login";
+  }
+
+  function handleAuth() {
+    const username = document.getElementById('username').value.trim();
+    const password = document.getElementById('password').value.trim();
+
+    if (!username || !password) {
+      alert('Please fill out all fields.');
+      return;
     }
-  </script>
+
+    if (isLogin) {
+      const found = usersDB.find(u => u.username === username && u.password === password);
+      if (found) {
+        currentUser = found;
+        showVotingPage();
+      } else {
+        alert('Invalid credentials');
+      }
+    } else {
+      const exists = usersDB.some(u => u.username === username);
+      if (exists) {
+        alert('Username already taken');
+        return;
+      }
+      const newUser = { username, password };
+      usersDB.push(newUser);
+      currentUser = newUser;
+      showVotingPage();
+    }
+  }
+
+  function showVotingPage() {
+    document.getElementById('auth-section').style.display = 'none';
+    document.getElementById('vote-section').style.display = 'block';
+    document.getElementById('welcome-msg').innerText = `Welcome, ${currentUser.username}!`;
+    renderCandidates();
+  }
+
+  function logout() {
+    currentUser = null;
+    document.getElementById('username').value = '';
+    document.getElementById('password').value = '';
+    document.getElementById('auth-section').style.display = 'block';
+    document.getElementById('vote-section').style.display = 'none';
+  }
+
+  function renderCandidates() {
+    const container = document.getElementById('candidates');
+    container.innerHTML = '';
+
+    candidates.forEach((candidate, index) => {
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.innerHTML = `
+        <img src="${candidate.image}" alt="${candidate.name}">
+        <h3>${candidate.name}</h3>
+        <p>Votes: <span id="votes-${index}">${candidate.votes}</span></p>
+        <button onclick="vote(${index})">Vote</button>
+      `;
+      container.appendChild(card);
+    });
+  }
+
+  function vote(index) {
+    candidates[index].votes++;
+    document.getElementById(`votes-${index}`).innerText = candidates[index].votes;
+  }
+</script>
+
 </body>
 </html>

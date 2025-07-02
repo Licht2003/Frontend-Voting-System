@@ -1,79 +1,97 @@
-document.addEventListener("DOMContentLoaded", function () {
-  const votes = new Array(13).fill(0);
-  let users = [];
-  let currentUser = null;
-  let isLogin = true;
+import React, { useState } from "react";
+import "./App.css";
 
-  const candidatesGrid = document.getElementById("candidatesGrid");
-  const authBox = document.getElementById("authBox");
-  const mainApp = document.getElementById("mainApp");
-  const userDisplay = document.getElementById("userDisplay");
-  const authTitle = document.getElementById("authTitle");
-  const toggleText = document.getElementById("toggleText");
+const candidatesData = Array.from({ length: 13 }, (_, i) => ({
+  id: i + 1,
+  name: `Candidate ${i + 1}`,
+}));
 
-  function renderCandidates() {
-    candidatesGrid.innerHTML = "";
-    for (let i = 1; i <= 13; i++) {
-      const card = document.createElement("div");
-      card.className = "card";
-      card.innerHTML = `
-        <h3>Candidate ${i}</h3>
-        <p>Votes: <span id="vote-${i}">${votes[i - 1]}</span></p>
-        <button onclick="vote(${i - 1})">Vote</button>
-      `;
-      candidatesGrid.appendChild(card);
-    }
-  }
+const App = () => {
+  const [votes, setVotes] = useState(Array(candidatesData.length).fill(0));
+  const [user, setUser] = useState(null);
+  const [form, setForm] = useState({ username: "", password: "" });
+  const [isLogin, setIsLogin] = useState(true);
+  const [usersDB, setUsersDB] = useState([]);
 
-  window.vote = function (index) {
-    votes[index]++;
-    document.getElementById(`vote-${index + 1}`).textContent = votes[index];
+  const handleVote = (index) => {
+    const newVotes = [...votes];
+    newVotes[index]++;
+    setVotes(newVotes);
   };
 
-  window.handleAuth = function () {
-    const username = document.getElementById("username").value.trim();
-    const password = document.getElementById("password").value.trim();
-    if (!username || !password) return alert("Fill out both fields");
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
 
+  const handleAuth = () => {
     if (isLogin) {
-      const user = users.find((u) => u.username === username && u.password === password);
-      if (user) {
-        loginUser(user);
+      const foundUser = usersDB.find(
+        (u) => u.username === form.username && u.password === form.password
+      );
+      if (foundUser) {
+        setUser(foundUser);
       } else {
         alert("Invalid credentials");
       }
     } else {
-      const exists = users.some((u) => u.username === username);
+      const exists = usersDB.some((u) => u.username === form.username);
       if (exists) {
-        alert("Username already taken");
+        alert("Username already exists");
       } else {
-        const newUser = { username, password };
-        users.push(newUser);
-        loginUser(newUser);
+        const newUser = { ...form };
+        setUsersDB([...usersDB, newUser]);
+        setUser(newUser);
       }
     }
   };
 
-  function loginUser(user) {
-    currentUser = user;
-    authBox.style.display = "none";
-    mainApp.style.display = "block";
-    userDisplay.textContent = currentUser.username;
-    renderCandidates();
+  if (!user) {
+    return (
+      <div className="auth-container">
+        <h2>{isLogin ? "Login" : "Register"}</h2>
+        <input
+          type="text"
+          name="username"
+          placeholder="Username"
+          value={form.username}
+          onChange={handleChange}
+        />
+        <input
+          type="password"
+          name="password"
+          placeholder="Password"
+          value={form.password}
+          onChange={handleChange}
+        />
+        <button onClick={handleAuth}>{isLogin ? "Login" : "Register"}</button>
+        <p>
+          {isLogin ? "Don't have an account? " : "Already have an account? "}
+          <span className="link" onClick={() => setIsLogin(!isLogin)}>
+            {isLogin ? "Register here" : "Login here"}
+          </span>
+        </p>
+      </div>
+    );
   }
 
-  window.toggleForm = function () {
-    isLogin = !isLogin;
-    authTitle.textContent = isLogin ? "Login" : "Register";
-    toggleText.textContent = isLogin ? "Don't have an account?" : "Already have an account?";
-    document.querySelector("#authBox button").textContent = isLogin ? "Login" : "Register";
-  };
+  return (
+    <div className="app-container">
+      <h1 className="title">Welcome, {user.username}!</h1>
+      <button className="logout-btn" onClick={() => setUser(null)}>
+        Logout
+      </button>
+      <h2>Pageant Voting System</h2>
+      <div className="candidates-grid">
+        {candidatesData.map((candidate, index) => (
+          <div className="candidate-card" key={candidate.id}>
+            <h3>{candidate.name}</h3>
+            <p>Votes: {votes[index]}</p>
+            <button onClick={() => handleVote(index)}>Vote</button>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
 
-  window.logout = function () {
-    currentUser = null;
-    document.getElementById("username").value = "";
-    document.getElementById("password").value = "";
-    authBox.style.display = "block";
-    mainApp.style.display = "none";
-  };
-});
+export default App;
