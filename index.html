@@ -3,31 +3,161 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Pageant Voting System</title>
-  <link rel="stylesheet" href="index.css" />
-  <link rel="stylesheet" href="app.css" />
+  <title>Pageant Candidates</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      margin: 0;
+      padding: 2rem;
+      background: #fafafa;
+      text-align: center;
+    }
+
+    h1 {
+      margin-bottom: 2rem;
+    }
+
+    .candidates-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      padding: 1rem;
+    }
+
+    .card img {
+      width: 100%;
+      border-radius: 8px;
+    }
+
+    .card h3 {
+      margin: 0.5rem 0;
+    }
+
+    .card button {
+      margin-top: 0.5rem;
+      padding: 0.5rem 1rem;
+      background: #007bff;
+      border: none;
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .card button:hover {
+      background: #0056b3;
+    }
+  </style>
 </head>
 <body>
-  <div class="container" id="app">
-    <div class="auth-box" id="authBox">
-      <h2 id="authTitle">Login</h2>
-      <input type="text" id="username" placeholder="Username"/>
-      <input type="password" id="password" placeholder="Password"/>
-      <button onclick="handleAuth()">Login</button>
-      <p>
-        <span id="toggleText">Don't have an account?</span>
-        <span class="link" onclick="toggleForm()">Register here</span>
-      </p>
+  <h1>Pageant Candidates</h1>
+  <div class="candidates-grid">
+    <!-- CANDIDATE 1 to 13 -->
+    <!-- Replace image filenames with your own -->
+    <!-- START CANDIDATE LIST -->
+    <div class="card">
+      <img src="images/candidate1.jpg" alt="Candidate 1">
+      <h3>Candidate 1</h3>
+      <p>Votes: <span>0</span></p>
+      <button onclick="vote(this)">Vote</button>
     </div>
 
-    <div id="mainApp" style="display: none;">
-      <h1>Welcome, <span id="userDisplay"></span>!</h1>
-      <button class="logout" onclick="logout()">Logout</button>
-      <h2>Pageant Voting System</h2>
-      <div class="grid" id="candidatesGrid"></div>
+    <div class="card">
+      <img src="images/candidate2.jpg" alt="Candidate 2">
+      <h3>Candidate 2</h3>
+      <p>Votes: <span>0</span></p>
+      <button onclick="vote(this)">Vote</button>
     </div>
+
+    <div class="card">
+      <img src="images/candidate3.jpg" alt="Candidate 3">
+      <h3>Candidate 3</h3>
+      <p>Votes: <span>0</span></p>
+      <button onclick="vote(this)">Vote</button>
+    </div>
+
+    <div class="card">
+      <img src="images/candidate4.jpg" alt="Candidate 4">
+      <h3>Candidate 4</h3>
+      <p>Votes: <span>0</span></p>
+      <button onclick="vote(this)">Vote</button>
+    </div>
+
+    <div class="card">
+      <img src="images/candidate5.jpg" alt="Candidate 5">
+      <h3>Candidate 5</h3>
+      <p>Votes: <span>0</span></p>
+      <button onclick="vote(this)">Vote</button>
+    </div>
+
+    <div class="card">
+      <img src="images/candidate6.jpg" alt="Candidate 6">
+      <h3>Candidate 6</h3>
+      <p>Votes: <span>0</span></p>
+      <button onclick="vote(this)">Vote</button>
+    </div>
+
+    <div class="card">
+      <img src="images/candidate7.jpg" alt="Candidate 7">
+      <h3>Candidate 7</h3>
+      <p>Votes: <span>0</span></p>
+      <button onclick="vote(this)">Vote</button>
+    </div>
+
+    <div class="card">
+      <img src="images/candidate8.jpg" alt="Candidate 8">
+      <h3>Candidate 8</h3>
+      <p>Votes: <span>0</span></p>
+      <button onclick="vote(this)">Vote</button>
+    </div>
+
+    <div class="card">
+      <img src="images/candidate9.jpg" alt="Candidate 9">
+      <h3>Candidate 9</h3>
+      <p>Votes: <span>0</span></p>
+      <button onclick="vote(this)">Vote</button>
+    </div>
+
+    <div class="card">
+      <img src="images/candidate10.jpg" alt="Candidate 10">
+      <h3>Candidate 10</h3>
+      <p>Votes: <span>0</span></p>
+      <button onclick="vote(this)">Vote</button>
+    </div>
+
+    <div class="card">
+      <img src="images/candidate11.jpg" alt="Candidate 11">
+      <h3>Candidate 11</h3>
+      <p>Votes: <span>0</span></p>
+      <button onclick="vote(this)">Vote</button>
+    </div>
+
+    <div class="card">
+      <img src="images/candidate12.jpg" alt="Candidate 12">
+      <h3>Candidate 12</h3>
+      <p>Votes: <span>0</span></p>
+      <button onclick="vote(this)">Vote</button>
+    </div>
+
+    <div class="card">
+      <img src="images/candidate13.jpg" alt="Candidate 13">
+      <h3>Candidate 13</h3>
+      <p>Votes: <span>0</span></p>
+      <button onclick="vote(this)">Vote</button>
+    </div>
+    <!-- END CANDIDATE LIST -->
   </div>
 
-  <script src="app.js"></script>
+  <script>
+    function vote(button) {
+      const voteCount = button.previousElementSibling.querySelector('span');
+      voteCount.textContent = parseInt(voteCount.textContent) + 1;
+    }
+  </script>
 </body>
 </html>
