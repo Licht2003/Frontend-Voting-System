@@ -1,127 +1,79 @@
-import React, { useState } from "react";
+document.addEventListener("DOMContentLoaded", function () {
+  const votes = new Array(13).fill(0);
+  let users = [];
+  let currentUser = null;
+  let isLogin = true;
 
-const candidatesData = [
-  { id: 1, name: "Candidate 1" },
-  { id: 2, name: "Candidate 2" },
-  { id: 3, name: "Candidate 3" },
-  { id: 4, name: "Candidate 4" },
-  { id: 5, name: "Candidate 5" },
-  { id: 6, name: "Candidate 6" },
-  { id: 7, name: "Candidate 7" },
-  { id: 8, name: "Candidate 8" },
-  { id: 9, name: "Candidate 9" },
-  { id: 10, name: "Candidate 10" },
-  { id: 11, name: "Candidate 11" },
-  { id: 12, name: "Candidate 12" },
-  { id: 13, name: "Candidate 13" },
-];
+  const candidatesGrid = document.getElementById("candidatesGrid");
+  const authBox = document.getElementById("authBox");
+  const mainApp = document.getElementById("mainApp");
+  const userDisplay = document.getElementById("userDisplay");
+  const authTitle = document.getElementById("authTitle");
+  const toggleText = document.getElementById("toggleText");
 
-const styles = {
-  container: { padding: "2rem", fontFamily: "sans-serif", textAlign: "center" },
-  authBox: { maxWidth: 400, margin: "2rem auto", textAlign: "center" },
-  input: { width: "100%", margin: "0.5rem 0", padding: "0.5rem", fontSize: "1rem" },
-  button: { padding: "0.5rem 1rem", marginTop: "0.5rem", backgroundColor: "#007bff", color: "white", border: "none", borderRadius: "5px", cursor: "pointer" },
-  logoutBtn: { backgroundColor: "crimson", color: "white", border: "none", borderRadius: "5px", padding: "0.5rem 1rem", cursor: "pointer", float: "right" },
-  grid: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "1.5rem", marginTop: "2rem" },
-  card: { background: "#f5f5f5", padding: "1rem", borderRadius: "10px", boxShadow: "0 2px 5px rgba(0,0,0,0.1)" },
-  link: { textDecoration: "underline", color: "blue", cursor: "pointer" },
-};
+  function renderCandidates() {
+    candidatesGrid.innerHTML = "";
+    for (let i = 1; i <= 13; i++) {
+      const card = document.createElement("div");
+      card.className = "card";
+      card.innerHTML = `
+        <h3>Candidate ${i}</h3>
+        <p>Votes: <span id="vote-${i}">${votes[i - 1]}</span></p>
+        <button onclick="vote(${i - 1})">Vote</button>
+      `;
+      candidatesGrid.appendChild(card);
+    }
+  }
 
-const App = () => {
-  const [votes, setVotes] = useState(Array(candidatesData.length).fill(0));
-  const [user, setUser] = useState(null);
-  const [form, setForm] = useState({ username: "", password: "" });
-  const [isLogin, setIsLogin] = useState(true);
-  const [usersDB, setUsersDB] = useState([]);
-
-  const handleVote = (index) => {
-    const newVotes = [...votes];
-    newVotes[index]++;
-    setVotes(newVotes);
+  window.vote = function (index) {
+    votes[index]++;
+    document.getElementById(`vote-${index + 1}`).textContent = votes[index];
   };
 
-  const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-  };
+  window.handleAuth = function () {
+    const username = document.getElementById("username").value.trim();
+    const password = document.getElementById("password").value.trim();
+    if (!username || !password) return alert("Fill out both fields");
 
-  const handleAuth = () => {
     if (isLogin) {
-      const foundUser = usersDB.find(
-        (u) => u.username === form.username && u.password === form.password
-      );
-      if (foundUser) {
-        setUser(foundUser);
+      const user = users.find((u) => u.username === username && u.password === password);
+      if (user) {
+        loginUser(user);
       } else {
         alert("Invalid credentials");
       }
     } else {
-      const exists = usersDB.some((u) => u.username === form.username);
+      const exists = users.some((u) => u.username === username);
       if (exists) {
-        alert("Username already exists");
+        alert("Username already taken");
       } else {
-        const newUser = { ...form };
-        setUsersDB([...usersDB, newUser]);
-        setUser(newUser);
+        const newUser = { username, password };
+        users.push(newUser);
+        loginUser(newUser);
       }
     }
   };
 
-  if (!user) {
-    return (
-      <div style={styles.authBox}>
-        <h2>{isLogin ? "Login" : "Register"}</h2>
-        <input
-          type="text"
-          name="username"
-          placeholder="Username"
-          value={form.username}
-          onChange={handleChange}
-          style={styles.input}
-        />
-        <input
-          type="password"
-          name="password"
-          placeholder="Password"
-          value={form.password}
-          onChange={handleChange}
-          style={styles.input}
-        />
-        <button onClick={handleAuth} style={styles.button}>
-          {isLogin ? "Login" : "Register"}
-        </button>
-        <p>
-          {isLogin ? "Don't have an account? " : "Already have an account? "}
-          <span
-            style={styles.link}
-            onClick={() => setIsLogin(!isLogin)}
-          >
-            {isLogin ? "Register here" : "Login here"}
-          </span>
-        </p>
-      </div>
-    );
+  function loginUser(user) {
+    currentUser = user;
+    authBox.style.display = "none";
+    mainApp.style.display = "block";
+    userDisplay.textContent = currentUser.username;
+    renderCandidates();
   }
 
-  return (
-    <div style={styles.container}>
-      <h1>Welcome, {user.username}!</h1>
-      <button onClick={() => setUser(null)} style={styles.logoutBtn}>
-        Logout
-      </button>
-      <h2>Pageant Voting System</h2>
-      <div style={styles.grid}>
-        {candidatesData.map((candidate, index) => (
-          <div key={candidate.id} style={styles.card}>
-            <h3>{candidate.name}</h3>
-            <p>Votes: {votes[index]}</p>
-            <button onClick={() => handleVote(index)} style={styles.button}>
-              Vote
-            </button>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-};
+  window.toggleForm = function () {
+    isLogin = !isLogin;
+    authTitle.textContent = isLogin ? "Login" : "Register";
+    toggleText.textContent = isLogin ? "Don't have an account?" : "Already have an account?";
+    document.querySelector("#authBox button").textContent = isLogin ? "Login" : "Register";
+  };
 
-export default App;
+  window.logout = function () {
+    currentUser = null;
+    document.getElementById("username").value = "";
+    document.getElementById("password").value = "";
+    authBox.style.display = "block";
+    mainApp.style.display = "none";
+  };
+});

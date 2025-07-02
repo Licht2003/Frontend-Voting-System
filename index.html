@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Pageant Voting System</title>
+  <link rel="stylesheet" href="index.css" />
+  <link rel="stylesheet" href="app.css" />
+</head>
+<body>
+  <div class="container" id="app">
+    <div class="auth-box" id="authBox">
+      <h2 id="authTitle">Login</h2>
+      <input type="text" id="username" placeholder="Username"/>
+      <input type="password" id="password" placeholder="Password"/>
+      <button onclick="handleAuth()">Login</button>
+      <p>
+        <span id="toggleText">Don't have an account?</span>
+        <span class="link" onclick="toggleForm()">Register here</span>
+      </p>
+    </div>
+
+    <div id="mainApp" style="display: none;">
+      <h1>Welcome, <span id="userDisplay"></span>!</h1>
+      <button class="logout" onclick="logout()">Logout</button>
+      <h2>Pageant Voting System</h2>
+      <div class="grid" id="candidatesGrid"></div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
